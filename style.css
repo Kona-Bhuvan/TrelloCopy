@@ -1,0 +1,308 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #0079bf; /* Trello blue */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #0067a3;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* --- Navigation --- */
+#app-nav {
+    display: flex;
+    background-color: #0067a3;
+    padding: 5px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#app-nav button {
+    background-color: #0084c2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+#app-nav button:hover {
+    background-color: #0099cc;
+}
+
+#app-nav button.active {
+    background-color: #ffffff;
+    color: #0067a3;
+}
+
+/* --- View Management --- */
+.app-view {
+    display: none;
+    padding: 0 20px 20px 20px; 
+}
+
+.active-view {
+    display: block;
+}
+
+/* --- Custom Scroll Indicator Styling --- */
+#board-scroll-track {
+    position: relative;
+    height: 3px;
+    background-color: #0067a3;
+    margin: 0 20px;
+    border-radius: 3px;
+    transition: opacity 0.3s;
+    opacity: 0.5;
+}
+
+#board-scroll-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: #79c9ff; 
+    border-radius: 3px;
+}
+
+/* --- Board/Inbox Container Styling --- */
+#board-container, #inbox-container {
+    display: flex;
+    overflow-x: auto;
+    padding-top: 20px;
+    padding-bottom: 20px; 
+    gap: 15px;
+    align-items: flex-start;
+    
+    /* CRITICAL: Hide the native scrollbar */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* CRITICAL: Hide native scrollbar for Webkit browsers (Chrome, Safari) */
+#board-container::-webkit-scrollbar, 
+#inbox-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* --- List and Task Styles --- */
+.list {
+    flex: 0 0 300px;
+    background-color: #ebecf0; 
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+    position: relative;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.list-title-group {
+    display: flex;
+    align-items: center;
+}
+
+.list-header h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    padding-right: 10px;
+}
+
+.delete-list-btn {
+    background: none;
+    border: none;
+    color: #777;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 5px;
+    opacity: 0.7;
+}
+
+.reset-timer-btn {
+    background: none;
+    border: none;
+    color: #42526e;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 5px 0 0;
+    opacity: 0.8;
+}
+
+.reset-timer-btn:hover, .delete-list-btn:hover {
+    opacity: 1;
+    color: #0079bf;
+}
+.delete-list-btn:hover {
+    color: #cf2f2f;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    min-height: 5px;
+}
+
+.task-item {
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 3px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 0 rgba(9, 30, 66, 0.1);
+    cursor: grab;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    word-break: break-word; 
+    transition: background-color 0.2s;
+}
+
+.task-content {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.task-checkbox {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.completed .task-text {
+    text-decoration: line-through;
+    color: #8c9ba5;
+}
+
+.add-list-placeholder {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    flex: 0 0 300px;
+}
+
+.add-list-btn {
+    width: 100%;
+    background: #ffffff33; 
+    border: none;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: left;
+    color: white;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.add-list-btn:hover {
+    background: #ffffff55;
+}
+
+
+/* ... (Styles before the modal section remain the same) ... */
+
+
+/* --- Modal Styles (CRITICAL FIX) --- */
+.modal {
+    /* CRITICAL FIX: Ensure modal is hidden by default. 
+       The display: flex; rule will be added directly via JavaScript 
+       when the openResetModal() function is called. */
+    display: none; 
+    position: fixed; 
+    z-index: 10; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; 
+    background-color: rgba(0,0,0,0.4); 
+    
+    /* Removed: display: flex; */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 5px;
+    width: 90%; 
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+/* ... (Remaining modal styles remain the same) ... */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.setting-group {
+    padding: 15px 0;
+}
+
+.time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+#modal-reset-hour, #modal-reset-minute {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 50px;
+    text-align: center;
+    font-size: 1em;
+}
+
+.action-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-right: 10px;
+    background-color: #0079bf;
+    color: white;
+}
+.action-btn:hover {
+    background-color: #005a99;
+}
+
+.reset-btn {
+    background-color: #cf2f2f;
+    color: white;
+}
+.reset-btn:hover {
+    background-color: #b30000;
+}

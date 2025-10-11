@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Daily Task Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>My Daily Tasks 📅</h1>
+    </header>
+
+    <nav id="app-nav">
+        <button onclick="showView('board-view')" id="nav-board">Board</button>
+        <button onclick="showView('inbox-view')" id="nav-inbox">Inbox</button>
+    </nav>
+    
+    <div id="board-scroll-track">
+        <div id="board-scroll-indicator"></div>
+    </div>
+    
+    <div id="board-view" class="app-view active-view">
+        <div id="board-container">
+            <div class="list add-list-placeholder">
+                <button class="add-list-btn" onclick="addList('board')">+ Add another list</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="inbox-view" class="app-view">
+        <div id="inbox-container">
+            </div>
+    </div>
+
+    <div id="reset-modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <span class="close-btn" onclick="document.getElementById('reset-modal').style.display='none'">&times;</span>
+            <h3 id="modal-list-title">Set Reset Timer for List</h3>
+            <p>Select the time each day you want this list's tasks to be **unchecked**.</p>
+            
+            <div class="setting-group">
+                <label for="modal-reset-hour">Reset Time:</label>
+                <div class="time-input-group">
+                    <input type="number" id="modal-reset-hour" min="0" max="23" value="0"> :
+                    <input type="number" id="modal-reset-minute" min="0" max="59" value="0">
+                </div>
+            </div>
+            
+            <button class="action-btn" onclick="saveListResetTime()">Set Daily Reset</button>
+            <button class="action-btn reset-btn" onclick="manualResetList()">Uncheck All Now</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
